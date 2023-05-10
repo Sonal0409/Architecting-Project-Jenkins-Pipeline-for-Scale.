@@ -1,0 +1,125 @@
+Step 1: Create EC2 3 instances in AWS lab and name them JenkinsMaster, JenkinsWorker1, JenkinsWorker2
+
+Step 2: Connect to JenkinsMaster node and set up jenkins on it.
+
+Execute below commands:
+
+# yum install git -y
+
+# sudo amazon-linux-extras install java-openjdk11 -y
+
+# sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+# sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+# yum install jenkins -y
+
+# systemctl start jenkins
+
+We need to now  set up jenkins dashboard
+
+For this, take public ip address of ec2 server, copy it and go to your browser and give
+
+publicipaddress:8080
+
+On the ec2 server, execute below command
+
+$ cat /var/lib/jenkins/secrets/initialAdminPassword
+
+Copy the password and paste in the browser (jenkins)
+
+Click on continue
+
+Click on Jenkins suggested plugin tab(on left side)
+
+On the next page
+
+Username: admin
+Password : admin
+Retype password: admin
+Email: admin@gmail.com
+
+Click on continue
+
+Click on finish
+
+You will be on the jenkins dashboard
+
+=========================================================================
+
+Jenkins + maven integration:
+
+Jenkins--> Manage Jenkins-->Global Tool configuration
+
+Under GIT==> leave it same 
+
+Under maven ==> lets install it automatically
+Type mymaven and check the install automatically box.
+Save the changes
+
+===========================================================================
+
+Step 3: Set up of worker nodes.
+
+Connect to JenkinsWorker1
+
+Install git and java on worker node
+
+# yum install git -y
+# sudo amazon-linux-extras install java-openjdk11
+
+Create remote root directory on the worker & give permissions for access
+
+cd /tmp
+
+mkdir jenkinsdir
+
+Give permission to remote root directory
+
+chmod -R 777 /tmp/jenkinsdir
+
+=====================================================
+
+Connect to JenkinsWorker2
+
+Install git and java on worker node
+
+# yum install git -y
+# sudo amazon-linux-extras install java-openjdk11
+
+ Create remote root directory on the worker & give permissions for access
+
+cd /tmp
+
+mkdir jenkinsdir
+
+Give permission to remote root directory
+
+chmod -R 777 /tmp/jenkinsdir
+
+=========================================================
+
+Go to master machine and update Jenkins URL
+
+Manage Jenkins> Configure System > update the latest jenkins URL to the current url > save the page
+
+
+ On master machine open Agent port
+
+Manage Jenkins> Configure Global Security> scroll down to agents > select random and save the page
+
+ Configure worker/agent node on master
+
+Manage Jenkins> Manage nodes and clouds
+
+Number of executors= executor = Job ==> 1
+remote root directory : /tmp/jenkinsdir
+label : linux_node
+Usage: only build jobs with matching labels
+
+check if connection is succesfull
+
+ add agent in the piepline
+ 
+ 
+ 
