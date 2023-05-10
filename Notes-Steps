@@ -114,12 +114,56 @@ Manage Jenkins> Manage nodes and clouds
 
 Number of executors= executor = Job ==> 1
 remote root directory : /tmp/jenkinsdir
-label : linux_node
+label : node1
 Usage: only build jobs with matching labels
 
 check if connection is succesfull
 
- add agent in the piepline
+Repeat steps for node2
  
- 
+==============================================
+
+Create a pipeline job and add below code:
+
+pipeline{
+    
+    tools{
+        maven 'mymaven'
+    }
+   // in agent any = any available server 
+    agent none
+   stages{
+       stage('Clone a Repo'){
+           agent any
+           steps{
+               git 'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+           }
+       }
+       
+       stage('Compile the code'){
+           agent {label 'node1'}
+           steps{
+                git 'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+               sh 'mvn compile'
+           }
+       }
+
+      stage('Unit Test'){
+           agent {label 'node2'}
+           steps{
+                git 'https://github.com/Sonal0409/DevOpsCodeDemo.git'
+               sh 'mvn test'
+           }
+       }
+       
+       stage('Package'){
+           agent any
+           steps{
+               sh 'mvn clean install package'
+           }
+       }
+       }
+}
+
+
  
