@@ -66,7 +66,7 @@ Connect to JenkinsWorker1
 Install git and java on worker node
 
 # yum install git -y
-# sudo amazon-linux-extras install java-openjdk11
+# sudo amazon-linux-extras install java-openjdk11 -y
 
 Create remote root directory on the worker & give permissions for access
 
