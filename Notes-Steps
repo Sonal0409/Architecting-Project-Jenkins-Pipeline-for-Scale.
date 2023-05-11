@@ -124,6 +124,9 @@ Repeat steps for node2
 ==============================================
 
 Create a pipeline job and add below code:
+On the jenkisn Dashboard --> click on new item --> give job name as project1 --> sleect the pipleine project template below.--> click on ok/save button
+click on pipeline on leftside. in the whitebox enter below code.
+
 
 pipeline{
     
